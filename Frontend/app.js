@@ -41,17 +41,35 @@ document.addEventListener("DOMContentLoaded", () => {
         document.head.appendChild(modalStyle);
     }
 
+    // if (applyBtn) {
+    //     applyBtn.addEventListener("click", () => {
+    //         window.location.href = "applic.html"
+    //     });
+    // }
+
+    // if (officerLoginBtn) {
+    //     officerLoginBtn.addEventListener("click", () => {
+    //         window.location.href = "officer.html";
+    //     });
+    // }
+
+    // Rashi
+        // --- A. Logic for index.html (Role Selection) ---
+
     if (applyBtn) {
         applyBtn.addEventListener("click", () => {
-            window.location.href = "applic.html"
+            // UPDATED: Points to the applicant authentication page
+            window.location.href = "applicant_auth.html";
         });
     }
 
     if (officerLoginBtn) {
         officerLoginBtn.addEventListener("click", () => {
-            window.location.href = "officer.html";
+            // UPDATED: Points to the officer authentication page
+            window.location.href = "officer_auth.html";
         });
     }
+
         // --- C. Logic for officer.html (Dashboard View Switching) ---
     const dashboardContainer = document.querySelector('.dashboard-container');
     
@@ -122,6 +140,13 @@ document.addEventListener("DOMContentLoaded", () => {
         // Now, check if the button itself exists before trying to add a listener
         if (submitLoanBtn && consentCheck) {
             submitLoanBtn.addEventListener("click", async () => {
+                // Rashi
+                // Face Capture
+                const faceCaptureData = document.getElementById('face-capture-data').value;
+                if (!faceCaptureData) {
+                    showMessage("Verification Required", "Please complete the face capture step before submitting.");
+                    return; // Stop the submission
+                }
                 // ... (Your validation checks remain the same)
                 if (!loanApplicationForm.checkValidity()) {
                     loanApplicationForm.reportValidity();
@@ -163,7 +188,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     credit_score: parseInt(document.getElementById("credit-score").value),
                     loan_amount: parseFloat(document.getElementById("loan-amount").value),
                     loan_term_months: parseInt(document.getElementById("loan-term").value),
-                    applicant_ip: publicIp // Add the fetched IP to the data object
+                    applicant_ip: publicIp, 
+                    // face_image_base64: faceCaptureData
                 };
 
                 // --- 3. Call the RPC function with the complete data ---
@@ -184,6 +210,4 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }     
 
-
 }); 
-
