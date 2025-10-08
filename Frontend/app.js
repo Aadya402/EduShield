@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // initialize the client
     const { createClient } = supabase;
-    const supabaseClient = createClient('', '');
+    const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     // -----------------------------
 
     const applyBtn = document.getElementById("apply-btn");
@@ -186,3 +186,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 }); 
+
