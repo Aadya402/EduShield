@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduShield - Applicant Portal</title>
+    <!-- Main shared styles -->
+    <link rel="stylesheet" href="style.css" />
+    <!-- Styles specific to the auth forms -->
+    <link rel="stylesheet" href="auth.css" />
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-box">
+
+            <!-- Sign In Form -->
+            <form id="sign-in-form" class="form active">
+                <h2>Applicant Sign In</h2>
+                <input id="signin-email" type="email" placeholder="Email Address" required />
+                <input id="signin-password" type="password" placeholder="Password" required />
+                <button type="submit">Sign In</button>
+                <div class="form-links">
+                    <p>Don't have an account? <a href="#" class="toggle-link">Sign Up</a></p>
+                </div>
+            </form>
+
+            <!-- Sign Up Form -->
+            <form id="sign-up-form" class="form">
+                <h2>Applicant Sign Up</h2>
+                <input id="signup-name" type="text" placeholder="Full Name" required />
+                <input id="signup-email" type="email" placeholder="Email Address" required />
+                <input id="signup-password" type="password" placeholder="Password" required />
+                <button type="submit">Sign Up</button>
+                <div class="form-links">
+                    <p>Already have an account? <a href="#" class="toggle-link">Sign In</a></p>
+                </div>
+            </form>
+             <a href="index.html" class="back-link">← Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Scripts will go here -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="env.js"></script>
+    <!-- We will create auth.js in a later step -->
+    <script src="auth.js"></script> 
+</body>
+</html>

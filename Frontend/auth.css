@@ -1,0 +1,99 @@
+/* --- Styles for the new Login/Signup Pages --- */
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
+
+.auth-box {
+    background-color: #ffffff;
+    padding: 40px 50px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    color: #333;
+    text-align: center;
+    position: relative;
+}
+
+.form {
+    display: none; /* Hidden by default */
+    flex-direction: column;
+}
+
+.form.active {
+    display: flex; /* Shown when active */
+}
+
+.auth-box h2 {
+    color: #1d3557; /* Dark Blue */
+    margin-bottom: 30px;
+    font-size: 1.8em;
+}
+
+.auth-box input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 20px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1em;
+}
+
+.auth-box input:focus {
+    border-color: #457b9d;
+    box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.2);
+    outline: none;
+}
+
+.auth-box button {
+    width: 100%;
+    background-color: #0077b6; /* Main brand blue */
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.auth-box button:hover {
+    background-color: #005f93;
+}
+
+.form-links {
+    margin-top: 25px;
+}
+
+.form-links p {
+    color: #6c757d;
+}
+
+.form-links a.toggle-link {
+    color: #0077b6;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.form-links a.toggle-link:hover {
+    text-decoration: underline;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 25px;
+    color: #6c757d;
+    text-decoration: none;
+    font-weight: 500;
+}
+.back-link:hover {
+    text-decoration: underline;
+}
