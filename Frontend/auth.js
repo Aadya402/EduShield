@@ -85,24 +85,58 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // --- SIGN IN LOGIC ---
-    signInForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email = document.getElementById("signin-email").value;
-        const password = document.getElementById("signin-password").value;
+    // aadya
+    
+    // In auth.js
 
-        const { data, error } = await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password,
-        });
+// --- SIGN IN LOGIC ---
+signInForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("signin-email").value;
+    const password = document.getElementById("signin-password").value;
 
-        if (error) {
-            showMessage("Sign In Failed", error.message, true);
-            return;
-        }
-
-        // If login is successful, redirect to the correct page
-        if (data.user) {
-            window.location.href = redirectUrl;
-        }
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password,
     });
+
+    if (error) {
+        showMessage("Sign In Failed", error.message, true);
+        return;
+    }
+
+    // If login is successful, execute the new logic
+    if (data.user) {
+        // --- ADD THIS BLOCK TO CAPTURE AND UPDATE GEOLOCATION ---
+        try {
+            // 1. Fetch the geolocation data from the API
+            const response = await fetch('http://ip-api.com/json');
+            if (!response.ok) {
+                throw new Error('Could not fetch geolocation');
+            }
+            const ipData = await response.json();
+
+            // 2. Call the RPC function to save the data in your 'applicants' or 'officers' table
+            // The 'tableName' variable correctly identifies whether the user is an applicant or officer
+            const { error: rpcError } = await supabaseClient.rpc('update_last_login_info', {
+                geolocation_data: ipData,
+                target_table: tableName // Pass the table name to the function
+            });
+
+            if (rpcError) {
+                // Log the error but don't block the user from signing in
+                console.error('Could not update last login info:', rpcError);
+            } else {
+                console.log('Successfully updated last login info.');
+            }
+
+        } catch (fetchError) {
+            console.error('Geolocation fetch error:', fetchError);
+        }
+        // --- END OF BLOCK TO ADD ---
+
+        // 3. Redirect the user to the correct page (this line already exists)
+        window.location.href = redirectUrl;
+    }
+});
 });
