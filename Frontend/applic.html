@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="style.css" />
     
     <link rel="stylesheet" href="applic.css" />
+
+    <!-- rashi -->
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+
 </head>
 
 <body>
@@ -133,6 +137,32 @@
                     </div>
                 </div>
 
+                
+                 <!-- Manual Face Capture Section -->
+                <h2>Facial Verification</h2>
+                <div id="face-capture-section" class="face-capture-section">
+                    <p id="status-message" class="status-message">A photo is required for identity verification.</p>
+
+                    <!-- 1. Initial State: Instructions and Start Button -->
+                    <div id="capture-instructions">
+                        <button type="button" id="start-camera-btn" class="action-btn">Start Camera</button>
+                    </div>
+
+                    <!-- 2. Active Camera State: Video Feed and Capture Button -->
+                    <div id="video-container" class="video-container hidden">
+                        <video id="video-feed" autoplay playsinline></video>
+                        <button type="button" id="capture-btn" class="capture-btn">Capture Photo</button>
+                    </div>
+
+                    <!-- 3. Success State: Image Preview and Recapture Button -->
+                    <div id="capture-success" class="capture-success hidden">
+                        <img id="captured-image-preview" alt="Your captured photo" />
+                        <button type="button" id="recapture-btn" class="action-btn secondary">Recapture</button>
+                    </div>
+                    
+                    <input type="hidden" id="face-capture-data" name="faceCaptureData" />
+                </div>
+
                 <h2>Terms & Consent</h2>
                 <div class="consent-section">
                     <input type="checkbox" id="consent-check" name="consent" required />
@@ -149,8 +179,9 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="env.js"></script>
     <script src="app.js"></script>
-    <script src="app.js"></script>
+    <script src="face-capture.js"></script>
+    
 </body>
 </html>
-
