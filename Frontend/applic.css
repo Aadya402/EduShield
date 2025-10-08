@@ -144,3 +144,181 @@
         padding: 30px 25px;
     }
 }
+/* Rashi */
+/* ADD THESE NEW STYLES TO THE END OF applic.css */
+
+/* --- Face Capture Section --- */
+.face-capture-wrapper {
+    grid-column: 1 / -1; /* Make it span both columns */
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#capture-instructions p {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    color: #333;
+}
+
+#start-camera-btn, #recapture-btn {
+    background-color: #0077b6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#start-camera-btn:hover, #recapture-btn:hover {
+    background-color: #005f93;
+}
+
+#video-container {
+    position: relative;
+    display: inline-block;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#video-feed {
+    display: block;
+}
+
+#status-message {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 8px;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+#capture-success img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 4px solid #28a745;
+    margin-bottom: 15px;
+}
+
+#capture-success p {
+    color: #28a745;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- Styles for Manual Face Capture Section --- */
+.face-capture-section {
+    grid-column: 1 / -1; /* Make section span both columns of the form grid */
+    background-color: #f7f9fc;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 25px;
+    margin-top: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.status-message {
+    margin-bottom: 20px;
+    color: #495057;
+    font-weight: 500;
+    min-height: 24px; /* Prevents layout shift when text changes */
+}
+
+/* General Action Button Style */
+.action-btn {
+    background-color: #0077b6;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.action-btn:hover {
+    background-color: #005f93;
+    transform: translateY(-2px);
+}
+
+.action-btn.secondary {
+    background-color: #6c757d;
+}
+.action-btn.secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Video Feed Styling */
+.video-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#video-feed {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 12px;
+    border: 2px solid #ced4da;
+    background-color: #000;
+}
+
+/* Big Capture Button Styling */
+.capture-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px; /* Round button */
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.capture-btn:hover {
+    background-color: #218838;
+    transform: translateY(-3px);
+}
+
+/* Captured Image Preview */
+.capture-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#captured-image-preview {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    border-radius: 12px;
+    border: 3px solid #28a745; /* Green border indicates success */
+}
+
+/* Helper to hide/show elements */
+.hidden {
+    display: none !important;
+}
