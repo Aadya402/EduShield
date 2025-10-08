@@ -1,0 +1,146 @@
+/* --- Applicant Form Styles (applic.css) --- */
+
+/* Application Container */
+.application-container {
+  background-color: #ffffff;
+  padding: 40px 50px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  color: #333;
+  max-width: 1500px;
+  height: 590px;
+  width: 100%;
+  text-align: left;
+  margin: 0 auto;
+
+  /* --- NEW SCROLLING LOGIC --- */
+  max-height: 85vh; 
+  overflow-y: auto; 
+}
+
+/* Section Headings (e.g., "Personal Information") */
+#loan-application-form h2 {
+  font-size: 1.5em;
+  color: #1d3557;
+  margin-top: 20px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+  /* Make header span all columns in the grid */
+  grid-column: 1 / -1; 
+}
+
+/* Grid layout for the form fields */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 25px 30px; /* Vertical and horizontal gap */
+}
+
+/* Container for each Label + Input pair */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Label Styling */
+.form-group label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.9em;
+}
+
+/* General Input & Select Styling */
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1em;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #457b9d;
+    box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.2);
+    outline: none;
+}
+
+/* Special styling for the "Self Employed" checkbox */
+.form-group-checkbox {
+    display: flex;
+    align-items: center;
+    grid-column: 1 / -1; /* Make checkbox take full width of its row */
+    margin-top: 10px;
+}
+.form-group-checkbox input {
+    width: auto;
+    height: 1.2em;
+    width: 1.2em;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.form-group-checkbox label {
+    margin: 0;
+    font-weight: normal;
+}
+
+/* Consent Section Styling */
+.consent-section {
+    grid-column: 1 / -1; /* Make it span all columns */
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #f7f9fc;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.9em;
+}
+
+.consent-section input[type="checkbox"] {
+    width: auto;
+    height: 1.2em;
+    width: 1.2em;
+    margin: 3px 10px 0 0; 
+    cursor: pointer;
+}
+
+.consent-section label a {
+    color: #0077b6; /* Match link color to brand */
+    text-decoration: underline;
+}
+
+/* Submit Button */
+#submit-loan-btn {
+  width: 100%;
+  background-color: #1d5f55; /* Dark Teal */
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 30px;
+  transition: background-color 0.3s, transform 0.1s;
+  grid-column: 1 / -1; 
+}
+
+#submit-loan-btn:hover {
+  background-color: #41d1ad; 
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr; 
+    }
+    .application-container {
+        padding: 30px 25px;
+    }
+}

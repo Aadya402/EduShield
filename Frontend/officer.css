@@ -1,0 +1,377 @@
+/* -------------------------------------------------------------------------- */
+/* Officer Dashboard Styles (officer.css)                                     */
+/* -------------------------------------------------------------------------- */
+
+/* --- Global Dashboard Layout (Overrides style.css centering) --- */
+body {
+    /* Ensure the body fills the viewport vertically and horizontally */
+    min-height: 100vh;
+    display: block; /* Disable the global flex centering */
+}
+
+.dashboard-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    min-height: 100vh;
+    background-color: #f8f9fa; /* Light background for professionalism */
+    color: #333;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+/* --- Header --- */
+.dashboard-header {
+    background-color: #0077b6; /* Primary brand blue */
+    color: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-title {
+    font-size: 1.8em;
+    margin: 0;
+    font-weight: 500;
+}
+
+.logout-link {
+    color: #f8f9fa;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 5px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.logout-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* --- Main Content Area --- */
+.dashboard-content {
+    padding: 30px 40px;
+}
+
+/* ------------------------------------------------ */
+/* NEW VIEW VISIBILITY LOGIC (Replaces Tab Logic) */
+/* ------------------------------------------------ */
+.view-pane {
+    display: none;
+    animation: fadeIn 0.5s;
+    pointer-events: none; /* Prevents hidden views from intercepting clicks */
+}
+
+.view-pane.active {
+    display: block;
+    pointer-events: auto;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+/* ------------------------------------------------ */
+* --- NEW BUTTON STYLES --- */
+.text-center {
+    text-align: center;
+}
+.mt-40 {
+    margin-top: 40px;
+}
+.primary-action-btn, .secondary-action-btn {
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.primary-action-btn {
+    background-color: #0077b6; /* Main blue */
+    color: white;
+    font-size: 1.1em;
+}
+.primary-action-btn:hover {
+    background-color: #005f93;
+    transform: translateY(-1px);
+}
+
+.secondary-action-btn {
+    background-color: #f1f1f1; /* Light grey */
+    color: #495057;
+    margin-bottom: 20px;
+    font-size: 0.95em;
+}
+.secondary-action-btn:hover {
+    background-color: #e0e0e0;
+}
+
+/* 
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+} */
+
+/* --- KPI Grid (Tab 1) --- */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.kpi-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.kpi-card h3 {
+    font-size: 1em;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+.kpi-value {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin: 0;
+}
+
+.kpi-card.high-risk .kpi-value { color: #dc3545; } /* Red */
+.kpi-card.approved .kpi-value { color: #28a745; } /* Green */
+.kpi-card.total .kpi-value { color: #0077b6; } /* Blue */
+
+/* Chart Placeholder */
+#risk-chart-placeholder {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e9ecef;
+    border-radius: 6px;
+    color: #6c757d;
+}
+
+/* --- Applicant Queue Table (Tab 2) --- */
+.table-wrapper {
+    overflow-x: auto; /* Ensures horizontal scrolling on small screens */
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.data-table th, .data-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.data-table th {
+    background-color: #e9ecef;
+    color: #495057;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85em;
+}
+
+.data-table tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.risk-score.low { color: #28a745; font-weight: 700; }
+.risk-score.medium { color: #ffc107; font-weight: 700; }
+.risk-score.high { color: #dc3545; font-weight: 700; }
+
+.status.flagged { color: #dc3545; font-weight: 700; }
+
+.applicant-name {
+    color: #0077b6;
+    font-weight: 600;
+}
+
+.review-btn {
+    background-color: #0077b6;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.review-btn:hover {
+    background-color: #005f93;
+}
+
+/* --- Detail Review View (Tab 3: Hidden) --- */
+#detail-review {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+#back-to-queue-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.2s;
+}
+
+#back-to-queue-btn:hover {
+    background-color: #5a6268;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* 2 parts for XAI, 1 part for raw data */
+    gap: 30px;
+}
+
+.detail-card {
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    background-color: #fefefe;
+}
+
+.detail-card h3 {
+    color: #0077b6;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 5px;
+}
+
+/* Fraud Insights Styling */
+.risk-gauge {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #fff3cd; /* Light yellow background */
+    border: 1px solid #ffeeba;
+    border-radius: 6px;
+}
+.score-value.high { color: #dc3545; }
+.score-value.low { color: #28a745; }
+
+.flag-list {
+    list-style: none;
+    padding: 0;
+}
+
+.flag-list li {
+    padding: 8px 0;
+    font-size: 0.95em;
+    border-bottom: 1px dotted #e9ecef;
+}
+.flag-list li:last-child { border-bottom: none; }
+
+.red-flag { color: #dc3545; }
+.yellow-flag { color: #ffc107; }
+.green-flag { color: #28a745; }
+
+
+/* Applicant Data Section (Scrollable on right) */
+.applicant-data-scrollable {
+    overflow-y: auto;
+    max-height: 500px; /* Forces vertical scrolling for applicant data */
+    border-left: 3px solid #0077b6; /* Visual separator */
+}
+
+.data-pair {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f1f1;
+    font-size: 0.95em;
+}
+
+.data-label {
+    font-weight: 600;
+    color: #6c757d;
+}
+
+.data-value {
+    font-weight: 500;
+    color: #333;
+}
+
+/* Action Buttons */
+.action-buttons {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+}
+
+.action-btn {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.action-btn.decline { background-color: #dc3545; color: white; }
+.action-btn.decline:hover { background-color: #c82333; }
+
+.action-btn.hold { background-color: #ffc107; color: #333; }
+.action-btn.hold:hover { background-color: #e0a800; }
+
+.action-btn.approve { background-color: #28a745; color: white; }
+.action-btn.approve:hover { background-color: #218838; }
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 992px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2x2 grid on tablets */
+    }
+    .detail-grid {
+        grid-template-columns: 1fr; /* Stack detail cards on tablets */
+    }
+    .applicant-data-scrollable {
+        max-height: none; /* Let data expand normally when stacked */
+        border-left: none;
+        border-top: 3px solid #0077b6;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .kpi-grid {
+        grid-template-columns: 1fr; /* Stack KPIs on mobile */
+    }
+    .dashboard-header, .tab-navigation {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .dashboard-content {
+        padding: 15px;
+    }
+    .action-buttons {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+}

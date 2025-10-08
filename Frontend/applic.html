@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>EduShield - Loan Application</title>
+    
+    <link rel="stylesheet" href="style.css" />
+    
+    <link rel="stylesheet" href="applic.css" />
+</head>
+
+<body>
+
+    <body>
+    <div class="container">
+        <div class="form-box">
+
+    <body class="form-page">
+        <div class="application-container">
+
+            <div class="logo">
+                <h1 class="brand-title">Student Loan Application</h1>
+                <p class="slogan">Fill out the form below to apply for a student loan.</p>
+            </div>
+
+            <form id="loan-application-form">
+    
+                <h2>Personal Information</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="full-name">Full Name *</label>
+                        <input id="full-name" type="text" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date-of-birth">Date of Birth *</label>
+                        <input id="date-of-birth" type="date" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input id="email" type="email" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone-number">Phone Number (10 digits) *</label>
+                        <input id="phone-number" type="tel" pattern="[0-9]{10}" maxlength="10" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pan-number">PAN Number *</label>
+                        <input id="pan-number" type="text" pattern="[A-Z0-9]{10}" maxlength="10" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="aadhar-number">Aadhar Number (12 digits) *</label>
+                        <input id="aadhar-number" type="tel" pattern="[0-9]{12}" maxlength="12" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender *</label>
+                        <select id="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="marital-status">Marital Status *</label>
+                        <select id="marital-status" required>
+                            <option value="">Select Marital Status</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Divorced">Divorced/Widowed</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="state">State/Province *</label>
+                        <input id="state" type="text" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="city">City/Town *</label>
+                        <input id="city" type="text" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dependants">Number of Dependants *</label>
+                        <input id="dependants" type="number" min="0" value="0" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="education-level">Education Level *</label>
+                        <select id="education-level" required>
+                            <option value="">Select Education Level</option>
+                            <option value="Not Graduate">Not Graduate</option>
+                            <option value="Undergraduate">Undergraduate</option>
+                            <option value="Postgraduate">Postgraduate</option>
+                            <option value="Diploma">Diploma</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group-checkbox">
+                        <input type="checkbox" id="self-employed" />
+                        <label for="self-employed">Self Employed</label>
+                    </div>
+                </div>
+
+                <h2>Financial Information</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="applicant-income">Applicant Monthly Income (₹) *</label>
+                        <input id="applicant-income" type="number" min="0" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="credit-score">Credit Score (300-900) *</label>
+                        <input id="credit-score" type="number" min="300" max="900" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loan-amount">Required Loan Amount (₹) *</label>
+                        <input id="loan-amount" type="number" min="10000" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loan-term">Loan Term in Months *</label>
+                        <input id="loan-term" type="number" min="12" max="360" required />
+                    </div>
+                </div>
+
+                <h2>Terms & Consent</h2>
+                <div class="consent-section">
+                    <input type="checkbox" id="consent-check" name="consent" required />
+                    <label for="consent-check">I agree to the <a href="#" target="_blank">Terms and Conditions</a>, and consent to the use of my personal data for checks.</label>
+                </div>
+
+                <button type="button" id="submit-loan-btn">Submit Application</button>
+                
+            </form>
+
+
+            <p class="mt-20"><a href="index.html">Back to Role Selection</a></p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+</body>
+</html>

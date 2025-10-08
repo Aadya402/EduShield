@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>EduShield - Officer Dashboard</title>
+    <!-- GLOBAL STYLES -->
+    <link rel="stylesheet" href="style.css" />
+    <!-- OFFICER DASHBOARD STYLES -->
+    <link rel="stylesheet" href="officer.css" />
+</head>
+<body>
+    <!-- The officer dashboard is designed to fill the entire screen, unlike the centered forms -->
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1 class="dashboard-title">EduShield Loan Review Dashboard</h1>
+            <a href="index.html" class="logout-link">Logout</a>
+        </header>
+
+        <main class="dashboard-content">
+
+            <!-- TAB 1: Overview & KPI Cards -->
+            <section id="overview" class="view-pane active"> <!-- Renamed class to view-pane -->
+                <!-- ADD THE NEW NAVIGATION BUTTON -->
+                <div class="text-center mt-40">
+                    <button id="view-applicants-btn" class="primary-action-btn">View Applicant Queue</button>
+                </div>
+            </section>
+
+            <!-- APPLICANT QUEUE: Hidden until button is clicked -->
+            <section id="applicants" class="view-pane"> <!-- Renamed class to view-pane, removed 'active' -->
+                <button id="back-to-overview-btn" class="secondary-action-btn">← Back to Overview</button>
+                <h2>New Loan Applications</h2>
+                <div class="table-wrapper">
+                    ... (Applicant Queue Table contents remain the same) ...
+                </div>
+            </section>
+            
+            <!-- Hidden Section for Detailed Applicant Review -->
+            <section id="detail-review" class="view-pane"> <!-- Renamed class to view-pane -->
+                ... (Detail Review contents remain the same) ...
+            </section>
+        
+
+        <main class="dashboard-content">
+
+            <!-- TAB 1: Overview & KPI Cards -->
+            <section id="overview" class="tab-pane active">
+                <div class="kpi-grid">
+                    <div class="kpi-card high-risk">
+                        <h3>High Risk Flags</h3>
+                        <p class="kpi-value">24</p>
+                        <p class="kpi-label">Review Needed</p>
+                    </div>
+                    <div class="kpi-card approved">
+                        <h3>Approved Today</h3>
+                        <p class="kpi-value">150</p>
+                        <p class="kpi-label">Applications Cleared</p>
+                    </div>
+                    <div class="kpi-card total">
+                        <h3>Total Applications</h3>
+                        <p class="kpi-value">300</p>
+                        <p class="kpi-label">Received This Week</p>
+                    </div>
+                    <div class="kpi-card distribution">
+                        <h3>Risk Distribution</h3>
+                        <!-- Placeholder for Risk Distribution Chart (Pie/Bar) -->
+                        <div id="risk-chart-placeholder">
+                             
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: Applicant Queue Table -->
+            <section id="applicants" class="tab-pane">
+                <h2>New Loan Applications</h2>
+                <div class="table-wrapper">
+                    <table id="applicant-queue-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Loan Amount (₹)</th>
+                                <th>Risk Score</th>
+                                <th>Status</th>
+                                <th>Date Applied</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Mock Data Rows (Will be populated by JS) -->
+                            <tr data-applicant-id="1">
+                                <td class="applicant-name">Aarav Sharma</td>
+                                <td>2,50,000</td>
+                                <td class="risk-score low">12</td>
+                                <td class="status">Pending</td>
+                                <td>2024-10-04</td>
+                                <td><button class="review-btn">Review</button></td>
+                            </tr>
+                            <tr data-applicant-id="2">
+                                <td class="applicant-name">Priya Singh</td>
+                                <td>8,00,000</td>
+                                <td class="risk-score high">85</td>
+                                <td class="status flagged">FLAGGED</td>
+                                <td>2024-10-04</td>
+                                <td><button class="review-btn">Review</button></td>
+                            </tr>
+                            <tr data-applicant-id="3">
+                                <td class="applicant-name">Rohit Verma</td>
+                                <td>50,000</td>
+                                <td class="risk-score medium">45</td>
+                                <td class="status">Pending</td>
+                                <td>2024-10-03</td>
+                                <td><button class="review-btn">Review</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Hidden Section for Detailed Applicant Review (View 3: Click on Name) -->
+            <section id="detail-review" class="tab-pane hidden">
+                <button id="back-to-queue-btn">← Back to Applicant Queue</button>
+                <h2 id="detail-applicant-name">Reviewing: [Applicant Name]</h2>
+
+                <!-- Detailed View Container -->
+                <div class="detail-grid">
+                    <!-- Column 1: Fraud & Behavioral Insights (XAI) -->
+                    <div class="detail-card fraud-insights">
+                        <h3>AI Fraud Insights & XAI</h3>
+                        <div class="risk-gauge">Risk Score: <span class="score-value high">85/100</span></div>
+                        
+                        <h4>Behavioral Flags:</h4>
+                        <ul class="flag-list">
+                            <li class="red-flag">Abnormal Typing Speed (Too Fast: 120 WPM)</li>
+                            <li class="red-flag">High Error Rate (30+ Corrections)</li>
+                            <li class="yellow-flag">Device Mismatch (Mobile used, but IP suggests Desktop)</li>
+                        </ul>
+
+                        <h4>KYC & ML Results:</h4>
+                        <ul class="flag-list">
+                            <li class="green-flag">KYC Document Match: Verified</li>
+                            <li class="yellow-flag">Income vs. Loan Ratio: Medium Risk</li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 2: Full Applicant Details (Scrollable to the right/down) -->
+                    <div class="detail-card applicant-data-scrollable">
+                        <h3>Submitted Applicant Data (KYC & Financial)</h3>
+                        <div class="data-pair"><span class="data-label">Full Name:</span> <span class="data-value">Priya Singh</span></div>
+                        <div class="data-pair"><span class="data-label">Email:</span> <span class="data-value">priya.s@mail.com</span></div>
+                        <div class="data-pair"><span class="data-label">Phone Number:</span> <span class="data-value">9876543210</span></div>
+                        <div class="data-pair"><span class="data-label">Marital Status:</span> <span class="data-value">Married</span></div>
+                        <div class="data-pair"><span class="data-label">Dependants:</span> <span class="data-value">2</span></div>
+                        <div class="data-pair"><span class="data-label">Self Employed:</span> <span class="data-value">No</span></div>
+                        <div class="data-pair"><span class="data-label">Education:</span> <span class="data-value">Postgraduate</span></div>
+                        <div class="data-pair"><span class="data-label">Monthly Income:</span> <span class="data-value">₹ 1,50,000</span></div>
+                        <div class="data-pair"><span class="data-label">Loan Term:</span> <span class="data-value">60 months</span></div>
+                        <!-- More data pairs here, making it scrollable -->
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn decline">Decline Loan</button>
+                    <button class="action-btn hold">Hold for Manager Review</button>
+                    <button class="action-btn approve">Approve Application</button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- The shared script will handle tab switching and detail view activation -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+</body>
+</html>
