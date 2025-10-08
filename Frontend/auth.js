@@ -84,11 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // --- SIGN IN LOGIC ---
-    // aadya
-    
-    // In auth.js
-
 // --- SIGN IN LOGIC ---
 signInForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -133,10 +128,10 @@ signInForm.addEventListener("submit", async (e) => {
         } catch (fetchError) {
             console.error('Geolocation fetch error:', fetchError);
         }
-        // --- END OF BLOCK TO ADD ---
 
         // 3. Redirect the user to the correct page (this line already exists)
         window.location.href = redirectUrl;
     }
 });
 });
+
