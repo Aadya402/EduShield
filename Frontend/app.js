@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // initialize the client
     const { createClient } = supabase;
-    const supabaseClient = createClient('https://dulsjdhlkmpgyuupfoqd.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1bHNqZGhsa21wZ3l1dXBmb3FkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk4MzA3NTEsImV4cCI6MjA3NTQwNjc1MX0.ITBQAdW2AFW_PJiBMzrU862B31X4ZzKWlRbqIz1PWPE');
+    const supabaseClient = createClient('', '');
     // -----------------------------
 
     const applyBtn = document.getElementById("apply-btn");
@@ -183,5 +183,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
     }     
+
 
 }); 
