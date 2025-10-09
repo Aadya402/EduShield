@@ -73,6 +73,64 @@ document.addEventListener("DOMContentLoaded", () => {
     const dashboardContainer = document.querySelector('.dashboard-container');
     
     if (dashboardContainer) {
+
+        //aadya
+        // --- ADD THIS ENTIRE FUNCTION ---
+        async function fetchAndDisplayApplications() {
+            const tableBody = document.querySelector('#applicant-queue-table tbody');
+            if (!tableBody) return;
+
+            // 1. Fetch data from the 'loan_applications' table in Supabase
+            const { data: applications, error } = await supabaseClient
+                .from('loan_applications')
+                .select('*') // Get all columns
+                .order('created_at', { ascending: false }); // Show newest first
+
+            if (error) {
+                console.error("Error fetching applications:", error);
+                tableBody.innerHTML = `<tr><td colspan="6">Error loading data. Please check the console.</td></tr>`;
+                return;
+            }
+
+            // 2. Clear any existing mock data from the table
+            tableBody.innerHTML = '';
+
+            if (applications.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center;">No new applications found.</td></tr>`;
+                return;
+            }
+
+            // 3. Loop through the fetched data and create a table row for each application
+            applications.forEach(app => {
+                const row = document.createElement('tr');
+                // Set the data-applicant-id so your existing "Review" button logic works
+                row.dataset.applicantId = app.id;
+
+                // Determine the CSS class for the risk score based on its value
+                let riskClass = 'low';
+                if (app.risk_score > 75) {
+                    riskClass = 'high';
+                } else if (app.risk_score > 40) {
+                    riskClass = 'medium';
+                }
+
+                // Format the date to be more readable (YYYY-MM-DD)
+                const formattedDate = new Date(app.created_at).toLocaleDateString('en-CA');
+
+                // Populate the row with data
+                row.innerHTML = `
+                    <td class="applicant-name">${app.full_name}</td>
+                    <td>${new Intl.NumberFormat('en-IN').format(app.loan_amount)}</td>
+                    <td class="risk-score ${riskClass}">${app.risk_score}</td>
+                    <td class="status ${app.status.toLowerCase().replace(/\s+/g, '-')}">${app.status}</td>
+                    <td>${formattedDate}</td>
+                    <td><button class="review-btn">Review</button></td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        // --- END OF FUNCTION ---
         // Define ALL necessary dashboard elements here
         const overviewPane = document.getElementById('overview');
         const applicantsPane = document.getElementById('applicants');
@@ -82,6 +140,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const applicantTable = document.getElementById('applicant-queue-table');
         const detailApplicantName = document.getElementById('detail-applicant-name');
         const backToQueueBtn = document.getElementById('back-to-queue-btn');
+
+        //aadya
+        fetchAndDisplayApplications();
 
         // --- 1. Button View Switching Logic ---
         if (viewApplicantsBtn) {
@@ -225,7 +286,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     // --- Handle the successful response ---
                     showMessage(
                         "Submission Complete! 🎉",
-                        //`Your application has been processed with a risk score of ${result.risk_score}.`
+                        `Your application has been processed.`
+                        // with a risk score of ${result.risk_score}.
                     );
                     loanApplicationForm.reset();
 
