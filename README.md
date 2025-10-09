@@ -59,3 +59,18 @@ v
 | (Returns Risk Score)
 v
 [Frontend (Browser)] <--- (Shows Result)
+
+---
+## ⚙️ Getting Started: Local Setup
+
+To run this project on your local machine, follow these steps.
+
+#### Prerequisites:
+* Python 3.8+
+* Node.js and npm
+* A Supabase Account (free tier)
+
+#### 1. Clone the Repository
+```bash
+git clone [https://github.com/your-username/edushield.git](https://github.com/your-username/edushield.git)
+cd edushield
