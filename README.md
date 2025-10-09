@@ -46,3 +46,16 @@ This project is built with a modern, decoupled architecture.
 
 #### Architecture Diagram:
 The user's application data is sent to a Flask API, which runs the ML model and communicates with Supabase to store and retrieve data.
+[Frontend (Browser)] <--- (User Interaction)
+|
+| (Sends Form Data via API Call)
+v
+[Flask Backend API]
+|
+|--- (Loads .pkl Model) ---> [ML Model]
+|
+|--- (Inserts/Updates Data) ---> [Supabase Database]
+|
+| (Returns Risk Score)
+v
+[Frontend (Browser)] <--- (Shows Result)
