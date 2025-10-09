@@ -32,21 +32,7 @@ EduShield is more than just a form. It's an intelligent system with several laye
 * **👨‍💼 Officer Review Dashboard:** A dedicated dashboard for loan officers to view the applicant queue, sorted by risk. Officers can drill down into any application to see the full data, the AI-generated risk score, and the liveness verification photos side-by-side.
 
 ---
-## 📸 Application Screenshots
 
-**1. Applicant Loan Form with Liveness Check**
-![Applicant Form](https://i.imgur.com/YOUR_SCREENSHOT_1.png)
-*(Replace with a screenshot of your `applic.html` during the face capture step)*
-
-**2. Officer Dashboard - Applicant Queue**
-![Officer Dashboard](https://i.imgur.com/YOUR_SCREENSHOT_2.png)
-*(Replace with a screenshot of `officer.html` showing the table populated with data)*
-
-**3. Officer Dashboard - Detailed Review with Liveness Photos**
-![Detail View](https://i.imgur.com/YOUR_SCREENSHOT_3.png)
-*(Replace with a screenshot of the detailed review page showing the two liveness photos side-by-side)*
-
----
 ## 🛠️ Technology Stack & Architecture
 
 This project is built with a modern, decoupled architecture.
