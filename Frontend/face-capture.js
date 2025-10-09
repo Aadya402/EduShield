@@ -1,71 +1,91 @@
+// In face-capture.js
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements ---
-    const startCameraButton = document.getElementById('start-camera-btn');
+    const startButton = document.getElementById('start-camera-btn');
     const captureButton = document.getElementById('capture-btn');
     const recaptureButton = document.getElementById('recapture-btn');
     const video = document.getElementById('video-feed');
     const capturedImagePreview = document.getElementById('captured-image-preview');
-    const faceCaptureDataInput = document.getElementById('face-capture-data');
     const statusMessage = document.getElementById('status-message');
-
-    // --- UI Containers ---
+    const faceCaptureDataInput = document.getElementById('face-capture-data');
+    const overlay = document.getElementById('liveness-overlay');
+    
+    // UI Containers
     const instructionsUI = document.getElementById('capture-instructions');
     const videoUI = document.getElementById('video-container');
     const successUI = document.getElementById('capture-success');
 
-    let stream = null; // To hold the camera stream
+    let stream = null;
 
-    // --- 1. Start Camera ---
-    async function startCamera() {
+    // Main function to start the whole process
+    async function startLivenessCheck() {
         try {
-            // Get camera stream
             stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
             video.srcObject = stream;
             video.play();
 
-            // Update UI
+            // Hide the start button and show the video feed
             instructionsUI.classList.add('hidden');
             successUI.classList.add('hidden');
             videoUI.classList.remove('hidden');
-            statusMessage.textContent = 'Position your face in the frame and click capture.';
+            captureButton.classList.add('hidden'); // We don't need a manual capture button
+            
+            statusMessage.textContent = 'Get ready...';
+
+            // Start the flashing sequence after a brief delay
+            setTimeout(performFlashSequence, 1500);
+
         } catch (err) {
             console.error("Error accessing camera:", err);
             statusMessage.textContent = "Could not access camera. Please allow permission.";
         }
     }
 
-    // --- 2. Capture Photo ---
-    function capturePhoto() {
-        if (!stream) return;
-
-        // Create a canvas to draw the video frame on
+    function captureSnapshot() {
         const canvas = document.createElement('canvas');
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         const context = canvas.getContext('2d');
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        return canvas.toDataURL('image/jpeg');
+    }
 
-        // Convert the canvas to a Base64 JPEG image
-        const imageDataUrl = canvas.toDataURL('image/jpeg');
+    async function performFlashSequence() {
+        const captures = {};
 
-        // Store the image data in the hidden form field for submission
-        faceCaptureDataInput.value = imageDataUrl;
+        // Frame 1: Flash Blue
+        overlay.style.backgroundColor = 'rgba(0, 0, 255, 0.7)';
+        overlay.classList.remove('hidden');
+        statusMessage.textContent = 'Hold Still...';
+        await new Promise(resolve => setTimeout(resolve, 300));
+        captures.blue_tint = captureSnapshot();
+        
+        // Frame 2: Flash Green
+        overlay.style.backgroundColor = 'rgba(0, 255, 0, 0.7)';
+        await new Promise(resolve => setTimeout(resolve, 300));
+        captures.green_tint = captureSnapshot();
 
-        // Show the captured image to the user
-        capturedImagePreview.src = imageDataUrl;
+        // Sequence finished
+        overlay.classList.add('hidden');
+        stream.getTracks().forEach(track => track.stop());
 
-        // Update UI
+        // Store both images as a JSON string in the hidden input
+        faceCaptureDataInput.value = JSON.stringify(captures);
+        
+        // Show success UI
+        capturedImagePreview.src = captures.green_tint; // Show the last capture as preview
         videoUI.classList.add('hidden');
         successUI.classList.remove('hidden');
-        statusMessage.textContent = 'Face captured successfully!';
-
-        // Stop the camera stream to turn the light off
-        stream.getTracks().forEach(track => track.stop());
+        statusMessage.textContent = 'Liveness check complete!';
     }
 
     // --- Event Listeners ---
-    startCameraButton.addEventListener('click', startCamera);
-    captureButton.addEventListener('click', capturePhoto);
-    recaptureButton.addEventListener('click', startCamera); // Recapture just restarts the camera
+    startButton.addEventListener('click', startLivenessCheck);
+    recaptureButton.addEventListener('click', () => {
+        // Reset the UI to the initial state
+        successUI.classList.add('hidden');
+        instructionsUI.classList.remove('hidden');
+    });
 });
+
 
