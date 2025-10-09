@@ -40,19 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.head.appendChild(modalStyle);
     }
 
-    // if (applyBtn) {
-    //     applyBtn.addEventListener("click", () => {
-    //         window.location.href = "applic.html"
-    //     });
-    // }
-
-    // if (officerLoginBtn) {
-    //     officerLoginBtn.addEventListener("click", () => {
-    //         window.location.href = "officer.html";
-    //     });
-    // }
-
-    // Rashi
         // --- A. Logic for index.html (Role Selection) ---
 
     if (applyBtn) {
@@ -200,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Now, check if the button itself exists before trying to add a listener
         if (submitLoanBtn && consentCheck) {
             submitLoanBtn.addEventListener("click", async () => {
-                // Rashi
+                
                 // Face Capture
                 const faceCaptureData = document.getElementById('face-capture-data').value;
                 if (!faceCaptureData) {
@@ -228,7 +215,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.error("Could not generate device fingerprint:", fingerprintError);
                 }
                 // --- END OF SNIPPET TO ADD ---
-
+                // --- ADD THIS SNIPPET ---
+                // --- 2. Get behavioral metrics ---
+                let behavioralMetrics = null;
+                try {
+                    // This calls the global function from behavioral-analytics.js
+                    behavioralMetrics = getBehavioralMetrics(); 
+                    console.log("Behavioral Metrics collected:", behavioralMetrics);
+                } catch (behaviorError) {
+                    console.error("Could not collect behavioral metrics:", behaviorError);
+                }
+                // --- END OF SNIPPET TO ADD ---
                 // --- 1. Fetch the public IP address from ipify ---
                 let publicIp = null;
                 try {
@@ -263,9 +260,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     device_fingerprint: deviceFingerprint,
                     // face_image_base64: faceCaptureData
                     face_capture_data: JSON.parse(document.getElementById('face-capture-data').value)
+
+                    behavioral_wpm: behavioralMetrics ? behavioralMetrics.averageWPM : null,
+                    behavioral_error_rate: behavioralMetrics ? (behavioralMetrics.totalCorrections / behavioralMetrics.totalKeyPresses) : null,
+                    behavioral_hesitation_ms: behavioralMetrics ? behavioralMetrics.averageHesitationTime : null,
                 };
 
-                // aadya
+                 // --- ADD THIS LINE FOR DEBUGGING ---
+                                console.log("DEBUG: Data being sent to Flask API:", formData);
 
                 // --- 3. Call the Flask API instead of the RPC function ---
                 try {
@@ -301,4 +303,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }     
 
 }); 
+
 
