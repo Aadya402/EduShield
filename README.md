@@ -84,7 +84,7 @@ cd EduShield
 
 ### Step 3: Configure and Run the Backend (Flask)
 
-1.  **Navigate to the Backend Folder**:
+1.  Navigate to the Backend Folder:
     Open a terminal and navigate to the `flask-backend` directory.
     ```bash
     cd flask-backend
