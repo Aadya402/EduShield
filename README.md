@@ -82,3 +82,44 @@ First, clone the project from GitHub to your local machine.
 git clone [https://github.com/Aadya402/EduShield.git](https://github.com/Aadya402/EduShield.git)
 cd EduShield
 
+### Step 3: Configure and Run the Backend (Flask)
+
+1.  **Navigate to the Backend Folder**:
+    Open a terminal and navigate to the `flask-backend` directory.
+    ```bash
+    cd flask-backend
+    ```
+
+2.  **Create and Activate a Virtual Environment**:
+    This creates an isolated environment for your Python packages.
+    ```bash
+    # Create the environment
+    python -m venv venv
+
+    # Activate on Windows
+    .\venv\Scripts\activate
+
+    # Activate on macOS/Linux
+    # source venv/bin/activate
+    ```
+
+3.  **Install Python Dependencies**:
+    This command installs all the necessary libraries listed in the `requirements.txt` file.
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Create `.env` File**:
+    In the `flask-backend` folder, create a new file named `.env` and add your Supabase credentials. **Important**: Use the secret **`service_role`** key here, not the public `anon` key.
+    ```env
+    SUPABASE_URL="YOUR_SUPABASE_URL"
+    SUPABASE_KEY="YOUR_SUPABASE_SERVICE_KEY"
+    ```
+
+5.  **Run the Flask Server**:
+    With your virtual environment still active, run the following command to start the backend server.
+    ```bash
+    flask run
+    ```
+    
+
