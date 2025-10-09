@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
 
     // initialize the client
@@ -158,6 +157,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
+                // --- 1. Generate the device fingerprint ---
+                let deviceFingerprint = null;
+                try {
+                    // This calls the function from fingerprint.js
+                    deviceFingerprint = await generateDeviceFingerprint();
+                    console.log("Device Fingerprint:", deviceFingerprint);
+                } catch (fingerprintError) {
+                    console.error("Could not generate device fingerprint:", fingerprintError);
+                }
+                // --- END OF SNIPPET TO ADD ---
+
                 // --- 1. Fetch the public IP address from ipify ---
                 let publicIp = null;
                 try {
@@ -182,29 +192,46 @@ document.addEventListener("DOMContentLoaded", () => {
                     gender: document.getElementById("gender").value,
                     marital_status: document.getElementById("marital-status").value,
                     dependants: parseInt(document.getElementById("dependants").value),
-                    self_employed: document.getElementById("self-employed").value === 'Yes',
+                    self_employed: document.getElementById("self-employed").checked,
                     education_level: document.getElementById("education-level").value,
                     applicant_income: parseFloat(document.getElementById("applicant-income").value),
                     credit_score: parseInt(document.getElementById("credit-score").value),
                     loan_amount: parseFloat(document.getElementById("loan-amount").value),
                     loan_term_months: parseInt(document.getElementById("loan-term").value),
                     applicant_ip: publicIp, 
+                    device_fingerprint: deviceFingerprint,
                     // face_image_base64: faceCaptureData
                 };
 
-                // --- 3. Call the RPC function with the complete data ---
-                const { error } = await supabaseClient.rpc('submit_application_with_ip', formData);
+                // aadya
 
-                // --- Your response handling remains the same ---
-                if (error) {
-                    console.error('Supabase RPC Error:', error);
-                    showMessage("Submission Failed", `An error occurred: ${error.message}. Please try again.`);
-                } else {
+                // --- 3. Call the Flask API instead of the RPC function ---
+                try {
+                    const response = await fetch('http://127.0.0.1:5000/predict', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        // If the server returned an error (e.g., 500)
+                        throw new Error(result.error || 'An unknown error occurred.');
+                    }
+                    
+                    // --- Handle the successful response ---
                     showMessage(
                         "Submission Complete! 🎉",
-                        "Your application has been successfully submitted."
+                        //`Your application has been processed with a risk score of ${result.risk_score}.`
                     );
                     loanApplicationForm.reset();
+
+                } catch (error) {
+                    console.error('API Error:', error);
+                    showMessage("Submission Failed", `An error occurred: ${error.message}. Please try again.`);
                 }
             });
         }
