@@ -88,7 +88,8 @@ def predict_fraud():
             "applicant_ip_address": form_data.get("applicant_ip"),
             "device_fingerprint": form_data.get("device_fingerprint"), # Add this if you have the column
             "risk_score": risk_score,
-            "status": 'Reviewed'
+            "status": 'Reviewed',
+            "liveness_check_data": form_data.get("face_capture_data")
         }
 
         # Instead of RPC, we use the standard insert command
