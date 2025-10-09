@@ -35,23 +35,52 @@ def predict_fraud():
     try:
         # 1. Get the data from the frontend's request
         form_data = request.get_json()
+        # --- DEBUG PRINT 1: See what was received ---
+        print("DEBUG: Data received from frontend:", form_data)
 
+        # Rashi
+        # --- ADD THIS BLOCK to check for multiple applications ---
+        # Get the device fingerprint from the incoming data
+        device_fingerprint = form_data.get('device_fingerprint')
+        previous_apps_count = 0 # Default to 0
+
+        if device_fingerprint:
+            try:
+                # Query Supabase to count rows with the same fingerprint
+                response = supabase.table('loan_applications').select(
+                    'id', count='exact'
+                ).eq('device_fingerprint', device_fingerprint).execute()
+                
+                # The count is available in the response object
+                previous_apps_count = response.count
+                print(f"Found {previous_apps_count} previous applications from this device fingerprint.")
+
+            except Exception as e:
+                print(f"Supabase error checking device fingerprint: {e}")
+        # --- END OF NEW BLOCK ---
         # --- 2. Prepare data for the ML model ---
         # The feature names MUST match your training script
         age = calculate_age(form_data.get('date_of_birth'))
+
+        
+        hesitation_ms = form_data.get('behavioral_hesitation_ms', 0)
+        hesitation_seconds = hesitation_ms / 1000.0 if hesitation_ms else 0
         features = {
             'age': age,
             'income': form_data.get('applicant_income', 0),
             'loan_amount': form_data.get('loan_amount', 0),
-            'typing_speed': form_data.get('typing_speed', 0),
-            'error_rate': form_data.get('error_rate', 0),
-            'hesitation_time': form_data.get('hesitation_time', 0),
+            'typing_speed': form_data.get('behavioral_wpm', 0), # UPDATED KEY
+            'error_rate': form_data.get('behavioral_error_rate', 0), # UPDATED KEY
+            'hesitation_time': hesitation_seconds,
             'device_mismatch': 0, # Placeholder
             'ip_mismatch': 0,     # Placeholder
-            'multiple_applications': 0, # Placeholder
+            'multiple_applications': previous_apps_count,
             'credit_score': form_data.get('credit_score', 0)
         }
         feature_df = pd.DataFrame([features])
+
+        # --- DEBUG PRINT 2: See what is going into the model ---
+        print("DEBUG: Features being sent to the model:", features)
 
         # --- 3. Make the prediction ---
         fraud_probability = pipeline.predict_proba(feature_df)[:, 1][0]
