@@ -63,14 +63,21 @@ v
 ---
 ## ⚙️ Getting Started: Local Setup
 
-To run this project on your local machine, follow these steps.
+Follow these steps to set up and run the EduShield project on your local machine.
 
-#### Prerequisites:
-* Python 3.8+
-* Node.js and npm
-* A Supabase Account (free tier)
+### Prerequisites
 
-#### 1. Clone the Repository
+Make sure you have the following software installed on your system:
+* [Git](https://git-scm.com/)
+* [Python 3.8+](https://www.python.org/downloads/)
+* [Node.js and npm](https://nodejs.org/en/)
+* A free [Supabase](https://supabase.com/) account
+
+---
+### Step 1: Clone the Repository
+
+First, clone the project from GitHub to your local machine.
+
 ```bash
-git clone [https://github.com/your-username/edushield.git](https://github.com/your-username/edushield.git)
-cd edushield
+git clone [https://github.com/Aadya402/EduShield.git](https://github.com/Aadya402/EduShield.git)
+cd EduShield
