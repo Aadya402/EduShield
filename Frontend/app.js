@@ -259,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     applicant_ip: publicIp, 
                     device_fingerprint: deviceFingerprint,
                     // face_image_base64: faceCaptureData
-                    face_capture_data: JSON.parse(document.getElementById('face-capture-data').value)
+                    face_capture_data: JSON.parse(document.getElementById('face-capture-data').value),
 
                     behavioral_wpm: behavioralMetrics ? behavioralMetrics.averageWPM : null,
                     behavioral_error_rate: behavioralMetrics ? (behavioralMetrics.totalCorrections / behavioralMetrics.totalKeyPresses) : null,
@@ -303,5 +303,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }     
 
 }); 
+
 
 
