@@ -262,6 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     applicant_ip: publicIp, 
                     device_fingerprint: deviceFingerprint,
                     // face_image_base64: faceCaptureData
+                    face_capture_data: JSON.parse(document.getElementById('face-capture-data').value)
                 };
 
                 // aadya
@@ -300,3 +301,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }     
 
 }); 
+
