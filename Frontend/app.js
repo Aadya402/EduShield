@@ -60,8 +60,110 @@ document.addEventListener("DOMContentLoaded", () => {
     const dashboardContainer = document.querySelector('.dashboard-container');
     
     if (dashboardContainer) {
+        
+        // --- ADD THIS ENTIRE FUNCTION ---
+        function populateDetailView(app) {
+            if (!app) return;
 
-        //aadya
+            // --- 1. Populate the right-side KYC & Financial Data ---
+            document.getElementById('detail-full-name').textContent = app.full_name || '--';
+            document.getElementById('detail-email').textContent = app.email || '--';
+            document.getElementById('detail-phone').textContent = app.phone_number || '--';
+            document.getElementById('detail-marital-status').textContent = app.marital_status || '--';
+            document.getElementById('detail-dependants').textContent = app.dependants ?? '--';
+            document.getElementById('detail-self-employed').textContent = app.self_employed ? 'Yes' : 'No';
+            document.getElementById('detail-education').textContent = app.education_level || '--';
+            document.getElementById('detail-income').textContent = `₹ ${new Intl.NumberFormat('en-IN').format(app.applicant_income)}` || '--';
+            document.getElementById('detail-loan-term').textContent = `${app.loan_term_months} months` || '--';
+            document.getElementById('detail-credit-score').textContent = app.credit_score || '--';
+
+            // --- 2. Populate the left-side AI Fraud Insights ---
+            const riskGauge = document.getElementById('detail-risk-gauge');
+            const riskScore = app.risk_score || 0;
+            riskGauge.innerHTML = `Risk Score: <span class="score-value">${riskScore}/100</span>`;
+            riskGauge.querySelector('.score-value').className = riskScore > 75 ? 'score-value high' : 'score-value low';
+
+            // --- ADD THIS ENTIRE NEW BLOCK TO SHOW ALL 6 METRICS ---
+            const metricsContainer = document.getElementById('detail-metrics-container');
+            let metricsHTML = '<h4>AI & Behavioral Metrics</h4>';
+
+            // 1. Typing Speed
+            const wpm = Math.round(app.behavioral_wpm ?? 0);
+            metricsHTML += `
+                <div class="data-pair">
+                    <span class="data-label">Typing Speed (WPM):</span>
+                    <span class="data-value ${wpm > 90 ? 'red-flag' : ''}">${wpm}</span>
+                </div>`;
+
+            // 2. Error/Correction Rate
+            const errorRate = ((app.behavioral_error_rate ?? 0) * 100).toFixed(1);
+            metricsHTML += `
+                <div class="data-pair">
+                    <span class="data-label">Correction Rate:</span>
+                    <span class="data-value ${errorRate > 2.5 ? 'red-flag' : ''}">${errorRate}%</span>
+                </div>`;
+
+            // 3. Hesitation Time
+            const hesitation = Math.round(app.behavioral_hesitation_ms ?? 0);
+            metricsHTML += `
+                <div class="data-pair">
+                    <span class="data-label">Avg. Hesitation (ms):</span>
+                    <span class="data-value ${hesitation > 2000 ? 'yellow-flag' : ''}">${hesitation}</span>
+                </div>`;
+
+            // 4. Multiple Applications from Same Device
+            const appCount = app.multiple_applications ?? 0;
+            metricsHTML += `
+                <div class="data-pair">
+                    <span class="data-label">Previous Applications (Device):</span>
+                    <span class="data-value ${appCount > 1 ? 'yellow-flag' : ''}">${appCount}</span>
+                </div>`;
+
+            // 5. Device Mismatch
+            const deviceMismatch = app.device_mismatch === 1;
+            metricsHTML += `
+                <div class="data-pair">
+                    <span class="data-label">Device Type Mismatch:</span>
+                    <span class="data-value ${deviceMismatch ? 'red-flag' : ''}">${deviceMismatch ? 'Yes' : 'No'}</span>
+                </div>`;
+
+            // 6. IP Mismatch
+            const ipMismatch = app.ip_mismatch === 1;
+            metricsHTML += `
+                <div class="data-pair">
+                    <span class="data-label">IP-Geography Mismatch:</span>
+                    <span class="data-value ${ipMismatch ? 'red-flag' : ''}">${ipMismatch ? 'Yes' : 'No'}</span>
+                </div>`;
+
+            metricsContainer.innerHTML = metricsHTML;
+            // --- END OF NEW BLOCK ---
+
+        }
+        // --- END OF FUNCTION ---
+
+        // --- ADD THIS ENTIRE FUNCTION ---
+        async function updateDashboardKPIs() {
+            // 1. Get Date Ranges for "Today" and "This Week"
+            const now = new Date();
+            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+            const weekStart = new Date(now.setDate(now.getDate() - now.getDay())).toISOString();
+
+            // 2. Fetch all data in parallel for efficiency
+            const [highRisk, approvedToday, totalWeek] = await Promise.all([
+                // Count applications with risk score > 75
+                supabaseClient.from('loan_applications').select('id', { count: 'exact' }).gt('risk_score', 75),
+                // Count 'Approved' applications since the start of today
+                supabaseClient.from('loan_applications').select('id', { count: 'exact' }).eq('status', 'Approved').gte('created_at', todayStart),
+                // Count all applications since the start of the week
+                supabaseClient.from('loan_applications').select('id', { count: 'exact' }).gte('created_at', weekStart)
+            ]);
+
+            // 3. Update the HTML elements with the fetched counts
+            document.getElementById('kpi-high-risk-value').textContent = highRisk.count ?? 0;
+            document.getElementById('kpi-approved-today-value').textContent = approvedToday.count ?? 0;
+            document.getElementById('kpi-total-week-value').textContent = totalWeek.count ?? 0;
+        }
+        // --- END OF FUNCTION ---
         // --- ADD THIS ENTIRE FUNCTION ---
         async function fetchAndDisplayApplications() {
             const tableBody = document.querySelector('#applicant-queue-table tbody');
@@ -128,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const detailApplicantName = document.getElementById('detail-applicant-name');
         const backToQueueBtn = document.getElementById('back-to-queue-btn');
 
-        //aadya
+        updateDashboardKPIs();
         fetchAndDisplayApplications();
 
         // --- 1. Button View Switching Logic ---
@@ -147,22 +249,39 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // --- 2. Detail View Logic (Table Row Click) ---
-        if (applicantTable) {
-            applicantTable.addEventListener('click', (e) => {
-                const row = e.target.closest('tr');
-                if (!row || !row.dataset.applicantId) return; 
+        // --- 3. MODIFY THE DETAIL VIEW LOGIC ---
+            if (applicantTable) {
+                applicantTable.addEventListener('click', async (e) => {
+                    // Target the button specifically, not the whole row
+                    if (!e.target.classList.contains('review-btn')) return;
 
-                const applicantName = row.querySelector('.applicant-name').textContent;
+                    const row = e.target.closest('tr');
+                    const applicantId = row.dataset.applicantId;
+                    if (!applicantId) return;
 
-                // Hide Applicant List and show Detail
-                applicantsPane.classList.remove('active');
-                detailReviewPane.classList.add('active');
-                
-                // Update detail header
-                detailApplicantName.textContent = `Reviewing: ${applicantName}`;
-            });
-        }
+                    // Fetch the FULL data for this specific applicant
+                    const { data: applicant, error } = await supabaseClient
+                        .from('loan_applications')
+                        .select('*')
+                        .eq('id', applicantId)
+                        .single(); // .single() gets one object instead of an array
+
+                    if (error) {
+                        console.error("Error fetching applicant details:", error);
+                        return;
+                    }
+
+                    // Call our new function to populate the view with the fetched data
+                    populateDetailView(applicant);
+
+                    // Hide Applicant List and show Detail view
+                    applicantsPane.classList.remove('active');
+                    detailReviewPane.classList.add('active');
+                    
+                    // Update detail header
+                    detailApplicantName.textContent = `Reviewing: ${applicant.full_name}`;
+                });
+            }
         
         // --- 3. Back Button Logic (Detail back to Applicants List) ---
         if (backToQueueBtn) {
@@ -270,6 +389,9 @@ document.addEventListener("DOMContentLoaded", () => {
                                 console.log("DEBUG: Data being sent to Flask API:", formData);
 
                 // --- 3. Call the Flask API instead of the RPC function ---
+                // In app.js, replace your entire try...catch block with this final version:
+
+                // --- 3. Call the Flask API instead of the RPC function ---
                 try {
                     const response = await fetch('http://127.0.0.1:5000/predict', {
                         method: 'POST',
@@ -282,15 +404,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     const result = await response.json();
 
                     if (!response.ok) {
-                        // If the server returned an error (e.g., 500)
-                        throw new Error(result.error || 'An unknown error occurred.');
+                        // THIS IS THE KEY CHANGE:
+                        // We check the status code and set the title accordingly.
+                        const errorTitle = response.status === 409 ? "Duplicate Application" : "Submission Failed";
+                        showMessage(errorTitle, result.error); // Use the new title and clean message
+                        return; // Stop the function
                     }
                     
                     // --- Handle the successful response ---
                     showMessage(
                         "Submission Complete! 🎉",
                         `Your application has been processed.`
-                        // with a risk score of ${result.risk_score}.
                     );
                     loanApplicationForm.reset();
 
@@ -303,6 +427,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }     
 
 }); 
+
+
 
 
 
