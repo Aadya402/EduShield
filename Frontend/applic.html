@@ -4,16 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>EduShield - Loan Application</title>
-    
     <link rel="stylesheet" href="style.css" />
-    
     <link rel="stylesheet" href="applic.css" />
     <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
-
 </head>
 
 <body>
-
     <body>
     <div id="liveness-overlay" class="liveness-overlay hidden"></div>
     <div class="container">
@@ -21,12 +17,10 @@
 
     <body class="form-page">
         <div class="application-container">
-
             <div class="logo">
                 <h1 class="brand-title">Student Loan Application</h1>
                 <p class="slogan">Fill out the form below to apply for a student loan.</p>
             </div>
-
             <form id="loan-application-form">
     
                 <h2>Personal Information</h2>
@@ -112,48 +106,43 @@
                         <label for="self-employed">Self Employed</label>
                     </div>
                 </div>
-
+                
                 <h2>Financial Information</h2>
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="applicant-income">Applicant Monthly Income (₹) *</label>
                         <input id="applicant-income" type="number" min="0" required />
                     </div>
-
                     <div class="form-group">
                         <label for="credit-score">Credit Score (300-900) *</label>
                         <input id="credit-score" type="number" min="300" max="900" required />
                     </div>
-
                     <div class="form-group">
                         <label for="loan-amount">Required Loan Amount (₹) *</label>
                         <input id="loan-amount" type="number" min="10000" required />
                     </div>
-                    
                     <div class="form-group">
                         <label for="loan-term">Loan Term in Months *</label>
                         <input id="loan-term" type="number" min="12" max="360" required />
                     </div>
                 </div>
-
-                
                  <!-- Manual Face Capture Section -->
                 <h2>Facial Verification</h2>
                 <div id="face-capture-section" class="face-capture-section">
                     <p id="status-message" class="status-message">A photo is required for identity verification.</p>
 
-                    <!-- 1. Initial State: Instructions and Start Button -->
+                    <!-- 1.Instructions and Start Button -->
                     <div id="capture-instructions">
                         <button type="button" id="start-camera-btn" class="action-btn">Start Camera</button>
                     </div>
 
-                    <!-- 2. Active Camera State: Video Feed and Capture Button -->
+                    <!-- 2.Video Feed and Capture Button -->
                     <div id="video-container" class="video-container hidden">
                         <video id="video-feed" autoplay playsinline></video>
                         <button type="button" id="capture-btn" class="capture-btn">Capture Photo</button>
                     </div>
 
-                    <!-- 3. Success State: Image Preview and Recapture Button -->
+                    <!-- 3.Image Preview and Recapture Button -->
                     <div id="capture-success" class="capture-success hidden">
                         <img id="captured-image-preview" alt="Your captured photo" />
                         <button type="button" id="recapture-btn" class="action-btn secondary">Recapture</button>
@@ -169,10 +158,7 @@
                 </div>
 
                 <button type="button" id="submit-loan-btn">Submit Application</button>
-                
             </form>
-
-
             <p class="mt-20"><a href="index.html">Back to Role Selection</a></p>
         </div>
     </div>
@@ -183,8 +169,8 @@
     <script src="behavioral-analytics.js"></script> 
     <script src="app.js"></script>
     <script src="face-capture.js"></script>
-    
 </body>
 </html>
+
 
 
