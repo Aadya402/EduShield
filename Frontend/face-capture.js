@@ -1,6 +1,4 @@
-// In face-capture.js
 document.addEventListener('DOMContentLoaded', () => {
-    // --- DOM Elements ---
     const startButton = document.getElementById('start-camera-btn');
     const captureButton = document.getElementById('capture-btn');
     const recaptureButton = document.getElementById('recapture-btn');
@@ -14,9 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const instructionsUI = document.getElementById('capture-instructions');
     const videoUI = document.getElementById('video-container');
     const successUI = document.getElementById('capture-success');
-
     let stream = null;
-
     // Main function to start the whole process
     async function startLivenessCheck() {
         try {
@@ -24,15 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
             video.srcObject = stream;
             video.play();
 
-            // Hide the start button and show the video feed
             instructionsUI.classList.add('hidden');
             successUI.classList.add('hidden');
             videoUI.classList.remove('hidden');
-            captureButton.classList.add('hidden'); // We don't need a manual capture button
-            
+            captureButton.classList.add('hidden'); 
             statusMessage.textContent = 'Get ready...';
-
-            // Start the flashing sequence after a brief delay
             setTimeout(performFlashSequence, 1500);
 
         } catch (err) {
@@ -52,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function performFlashSequence() {
         const captures = {};
-
         // Frame 1: Flash Blue
         overlay.style.backgroundColor = 'rgba(0, 0, 255, 0.7)';
         overlay.classList.remove('hidden');
@@ -68,13 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Sequence finished
         overlay.classList.add('hidden');
         stream.getTracks().forEach(track => track.stop());
-
-        // Store both images as a JSON string in the hidden input
         faceCaptureDataInput.value = JSON.stringify(captures);
-        
-        // Show success UI
-        capturedImagePreview.src = captures.green_tint; // Show the last capture as preview
-        videoUI.classList.add('hidden');
+        capturedImagePreview.src = captures.green_tint; 
         successUI.classList.remove('hidden');
         statusMessage.textContent = 'Liveness check complete!';
     }
@@ -82,10 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Event Listeners ---
     startButton.addEventListener('click', startLivenessCheck);
     recaptureButton.addEventListener('click', () => {
-        // Reset the UI to the initial state
         successUI.classList.add('hidden');
         instructionsUI.classList.remove('hidden');
     });
 });
+
 
 
