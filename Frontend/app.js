@@ -136,8 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
         async function fetchAndDisplayApplications() {
             const tableBody = document.querySelector('#applicant-queue-table tbody');
             if (!tableBody) return;
-
-            // 1. Fetch data from the 'loan_applications' table in Supabase
             const { data: applications, error } = await supabaseClient
                 .from('loan_applications')
                 .select('*') 
@@ -148,22 +146,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 tableBody.innerHTML = `<tr><td colspan="6">Error loading data. Please check the console.</td></tr>`;
                 return;
             }
-
-            // 2. Clear any existing mock data from the table
             tableBody.innerHTML = '';
-
             if (applications.length === 0) {
                 tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center;">No new applications found.</td></tr>`;
                 return;
             }
-
-            // 3. Loop through the fetched data and create a table row for each application
             applications.forEach(app => {
                 const row = document.createElement('tr');
-                // Set the data-applicant-id so your existing "Review" button logic works
                 row.dataset.applicantId = app.id;
 
-                // Determine the CSS class for the risk score based on its value
                 let riskClass = 'low';
                 if (app.risk_score > 75) {
                     riskClass = 'high';
@@ -171,10 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     riskClass = 'medium';
                 }
 
-                // Format the date to be more readable (YYYY-MM-DD)
                 const formattedDate = new Date(app.created_at).toLocaleDateString('en-CA');
-
-                // Populate the row with data
                 row.innerHTML = `
                     <td class="applicant-name">${app.full_name}</td>
                     <td>${new Intl.NumberFormat('en-IN').format(app.loan_amount)}</td>
@@ -187,8 +175,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 tableBody.appendChild(row);
             });
         }
-        // --- END OF FUNCTION ---
-        // Define ALL necessary dashboard elements here
         const overviewPane = document.getElementById('overview');
         const applicantsPane = document.getElementById('applicants');
         const detailReviewPane = document.getElementById('detail-review');
@@ -208,7 +194,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 applicantsPane.classList.add('active');
             });
         }
-        
         // Button: Applicants back to Overview
         if (backToOverviewBtn) {
             backToOverviewBtn.addEventListener('click', () => {
@@ -216,42 +201,33 @@ document.addEventListener("DOMContentLoaded", () => {
                 overviewPane.classList.add('active');
             });
         }
-
-        // --- 3. MODIFY THE DETAIL VIEW LOGIC ---
             if (applicantTable) {
                 applicantTable.addEventListener('click', async (e) => {
-                    // Target the button specifically, not the whole row
                     if (!e.target.classList.contains('review-btn')) return;
 
                     const row = e.target.closest('tr');
                     const applicantId = row.dataset.applicantId;
                     if (!applicantId) return;
-
-                    // Fetch the FULL data for this specific applicant
                     const { data: applicant, error } = await supabaseClient
                         .from('loan_applications')
                         .select('*')
                         .eq('id', applicantId)
-                        .single(); // .single() gets one object instead of an array
+                        .single(); 
 
                     if (error) {
                         console.error("Error fetching applicant details:", error);
                         return;
                     }
 
-                    // Call our new function to populate the view with the fetched data
                     populateDetailView(applicant);
-
-                    // Hide Applicant List and show Detail view
                     applicantsPane.classList.remove('active');
                     detailReviewPane.classList.add('active');
                     
-                    // Update detail header
                     detailApplicantName.textContent = `Reviewing: ${applicant.full_name}`;
                 });
             }
         
-        // --- 3. Back Button Logic (Detail back to Applicants List) ---
+        // --- 3. Detail back to Applicants List ---
         if (backToQueueBtn) {
             backToQueueBtn.addEventListener('click', () => {
                 // Hide Detail Pane
@@ -261,27 +237,19 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
     }
-
     // --- Loan Application Form Submission ---
     const loanApplicationForm = document.getElementById("loan-application-form"); 
-    
     // Check if the form exists 
     if (loanApplicationForm) {
-        // Define button and consent check only WHEN the form is present
         const submitLoanBtn = document.getElementById("submit-loan-btn");
         const consentCheck = document.getElementById("consent-check");
-
-        // Now, check if the button itself exists before trying to add a listener
         if (submitLoanBtn && consentCheck) {
             submitLoanBtn.addEventListener("click", async () => {
-                
-                // Face Capture
                 const faceCaptureData = document.getElementById('face-capture-data').value;
                 if (!faceCaptureData) {
                     showMessage("Verification Required", "Please complete the face capture step before submitting.");
-                    return; // Stop the submission
+                    return; 
                 }
-                // ... (Your validation checks remain the same)
                 if (!loanApplicationForm.checkValidity()) {
                     loanApplicationForm.reportValidity();
                     return;
@@ -295,24 +263,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 // --- 1. Generate the device fingerprint ---
                 let deviceFingerprint = null;
                 try {
-                    // This calls the function from fingerprint.js
                     deviceFingerprint = await generateDeviceFingerprint();
                     console.log("Device Fingerprint:", deviceFingerprint);
                 } catch (fingerprintError) {
                     console.error("Could not generate device fingerprint:", fingerprintError);
                 }
-                // --- END OF SNIPPET TO ADD ---
-                // --- ADD THIS SNIPPET ---
                 // --- 2. Get behavioral metrics ---
                 let behavioralMetrics = null;
                 try {
-                    // This calls the global function from behavioral-analytics.js
                     behavioralMetrics = getBehavioralMetrics(); 
                     console.log("Behavioral Metrics collected:", behavioralMetrics);
                 } catch (behaviorError) {
                     console.error("Could not collect behavioral metrics:", behaviorError);
                 }
-                // --- END OF SNIPPET TO ADD ---
                 // --- 1. Fetch the public IP address from ipify ---
                 let publicIp = null;
                 try {
@@ -321,9 +284,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     publicIp = data.ip;
                 } catch (ipError) {
                     console.error("Could not fetch IP address:", ipError);
-                    // Decide if you want to proceed without an IP or show an error
                 }
-
                 // --- 2. Gather form data ---
                 const formData = {
                     full_name: document.getElementById("full-name").value,
@@ -345,19 +306,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     loan_term_months: parseInt(document.getElementById("loan-term").value),
                     applicant_ip: publicIp, 
                     device_fingerprint: deviceFingerprint,
-                    // face_image_base64: faceCaptureData
                     face_capture_data: JSON.parse(document.getElementById('face-capture-data').value),
 
                     behavioral_wpm: behavioralMetrics ? behavioralMetrics.averageWPM : null,
                     behavioral_error_rate: behavioralMetrics ? (behavioralMetrics.totalCorrections / behavioralMetrics.totalKeyPresses) : null,
                     behavioral_hesitation_ms: behavioralMetrics ? behavioralMetrics.averageHesitationTime : null,
                 };
-
-                 // --- ADD THIS LINE FOR DEBUGGING ---
                                 console.log("DEBUG: Data being sent to Flask API:", formData);
-
-                // --- 3. Call the Flask API instead of the RPC function ---
-                // In app.js, replace your entire try...catch block with this final version:
 
                 // --- 3. Call the Flask API instead of the RPC function ---
                 try {
@@ -372,14 +327,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     const result = await response.json();
 
                     if (!response.ok) {
-                        // THIS IS THE KEY CHANGE:
-                        // We check the status code and set the title accordingly.
                         const errorTitle = response.status === 409 ? "Duplicate Application" : "Submission Failed";
-                        showMessage(errorTitle, result.error); // Use the new title and clean message
-                        return; // Stop the function
+                        showMessage(errorTitle, result.error);
+                        return; 
                     }
-                    
-                    // --- Handle the successful response ---
                     showMessage(
                         "Submission Complete! 🎉",
                         `Your application has been processed.`
@@ -393,12 +344,4 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
     }     
-
 }); 
-
-
-
-
-
-
-
