@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // initialize the client
+    // client: database
     const { createClient } = supabase;
     const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
@@ -123,23 +123,16 @@ document.addEventListener("DOMContentLoaded", () => {
             const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
             const weekStart = new Date(now.setDate(now.getDate() - now.getDay())).toISOString();
 
-            // 2. Fetch all data in parallel for efficiency
+            // 2. Fetching all data in parallel for efficiency
             const [highRisk, approvedToday, totalWeek] = await Promise.all([
-                // Count applications with risk score > 75
                 supabaseClient.from('loan_applications').select('id', { count: 'exact' }).gt('risk_score', 75),
-                // Count 'Approved' applications since the start of today
                 supabaseClient.from('loan_applications').select('id', { count: 'exact' }).eq('status', 'Approved').gte('created_at', todayStart),
-                // Count all applications since the start of the week
                 supabaseClient.from('loan_applications').select('id', { count: 'exact' }).gte('created_at', weekStart)
             ]);
-
-            // 3. Update the HTML elements with the fetched counts
             document.getElementById('kpi-high-risk-value').textContent = highRisk.count ?? 0;
             document.getElementById('kpi-approved-today-value').textContent = approvedToday.count ?? 0;
             document.getElementById('kpi-total-week-value').textContent = totalWeek.count ?? 0;
         }
-        // --- END OF FUNCTION ---
-        // --- ADD THIS ENTIRE FUNCTION ---
         async function fetchAndDisplayApplications() {
             const tableBody = document.querySelector('#applicant-queue-table tbody');
             if (!tableBody) return;
@@ -147,8 +140,8 @@ document.addEventListener("DOMContentLoaded", () => {
             // 1. Fetch data from the 'loan_applications' table in Supabase
             const { data: applications, error } = await supabaseClient
                 .from('loan_applications')
-                .select('*') // Get all columns
-                .order('created_at', { ascending: false }); // Show newest first
+                .select('*') 
+                .order('created_at', { ascending: false });
 
             if (error) {
                 console.error("Error fetching applications:", error);
@@ -402,6 +395,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }     
 
 }); 
+
 
 
 
