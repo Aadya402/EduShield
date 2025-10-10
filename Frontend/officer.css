@@ -1,12 +1,7 @@
-/* -------------------------------------------------------------------------- */
-/* Officer Dashboard Styles (officer.css)                                     */
-/* -------------------------------------------------------------------------- */
-
-/* --- Global Dashboard Layout (Overrides style.css centering) --- */
+/* --- Global Dashboard Layout --- */
 body {
-    /* Ensure the body fills the viewport vertically and horizontally */
     min-height: 100vh;
-    display: block; /* Disable the global flex centering */
+    display: block; 
     background-color: #f0f4f8;
 }
 
@@ -16,7 +11,7 @@ body {
     padding: 0;
     margin: 0;
     min-height: 100vh;
-    background-color: #f8f9fa; /* Light background for professionalism */
+    background-color: #f8f9fa; 
     color: #333;
     box-shadow: none;
     border-radius: 0;
@@ -24,7 +19,7 @@ body {
 
 /* --- Header --- */
 .dashboard-header {
-    background-color: #023047; /* Dark Navy Blue */
+    background-color: #023047; 
     color: white;
     padding: 15px 40px;
     display: flex;
@@ -58,9 +53,6 @@ body {
     padding: 30px 40px;
 }
 
-/* ------------------------------------------------ */
-/* NEW VIEW VISIBILITY LOGIC (Replaces Tab Logic) */
-/* ------------------------------------------------ */
 .view-pane {
     display: none;
     animation: fadeIn 0.5s;
@@ -95,17 +87,17 @@ body {
 
 /* --- NEW BUTTON STYLES --- */
 .primary-action-btn {
-    background-color: #219ebc; /* Bright Teal/Blue */
+    background-color: #219ebc; 
     color: white;
     font-size: 1.1em;
 }
 .primary-action-btn:hover {
-    background-color: #1a7f9a; /* Darker Teal */
+    background-color: #1a7f9a;
     transform: translateY(-1px);
 }
 
 .secondary-action-btn {
-    background-color: #f1f1f1; /* Light grey */
+    background-color: #f1f1f1; 
     color: #495057;
     margin-bottom: 20px;
     font-size: 0.95em;
@@ -114,19 +106,11 @@ body {
     background-color: #e0e0e0;
 }
 
-/* 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-} */
-
-/* --- KPI Grid (Tab 1) --- */
-
 .kpi-grid {
     display: flex;
-    justify-content: center; /* Center the cards in the available space */
+    justify-content: center; 
     flex-wrap: wrap;
-    gap: 30px; /* A much more reasonable gap */
+    gap: 30px; 
     margin-bottom: 30px;
 }
 
@@ -134,20 +118,20 @@ body {
     background: white;
     padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Softer shadow */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
     width: 300px;
-    text-align: center; /* Center the icon and text */
-    transition: transform 0.2s ease-in-out; /* Smooth transition for hover */
+    text-align: center; 
+    transition: transform 0.2s ease-in-out;
 }
 .kpi-card:hover {
     transform: translateY(-5px);
 }
 
-/* --- KPI Grid (Tab 1) --- */
+/* --- KPI Grid --- */
 .kpi-card h3 {
-    font-size: 1.25em; /* Reduced from 3em for better balance */
+    font-size: 1.25em; 
     color: #023047;
-    margin-top: 10px; /* Gives the icon some space */
+    margin-top: 10px; 
     margin-bottom: 10px;
     font-weight: 600;
 }
@@ -156,7 +140,7 @@ body {
 .kpi-card.approved .kpi-value,
 .kpi-card.total .kpi-value {
     font-size: 2.5em;
-    font-weight: 700; /* Make the number bolder */
+    font-weight: 700; 
     margin: 0;
 }
 
@@ -173,8 +157,8 @@ body {
 
 /* --- Applicant Queue Table --- */
 .data-table th {
-    background-color: #bcdcf4; /* Light blue background for header */
-    color: #023047; /* Dark blue text */
+    background-color: #bcdcf4; 
+    color: #023047; 
     font-weight: 600;
     text-transform: uppercase;
     font-size: 1em;
@@ -182,12 +166,12 @@ body {
 }
 
 .applicant-name {
-    color: #023047; /* Dark Blue for names */
+    color: #023047; 
     font-weight: 600;
 }
 
 .review-btn {
-    background-color: #219ebc; /* Bright Teal/Blue */
+    background-color: #219ebc; 
     color: rgb(217, 237, 245);
     border: none;
     padding: 6px 12px;
@@ -197,14 +181,14 @@ body {
 }
 
 .review-btn:hover {
-    background-color: #1a7f9a; /* Darker Teal */
+    background-color: #1a7f9a; 
 }
 
 /* --- Detail Review View --- */
-#detail-review h3 { /* General h3 inside the detail view */
+#detail-review h3 { 
     color: #023047;
     margin-bottom: 15px;
-    border-bottom: 2px solid #219ebc; /* Teal underline */
+    border-bottom: 2px solid #219ebc; 
     padding-bottom: 10px;
 }
 
@@ -215,7 +199,7 @@ body {
     margin-bottom: 20px;
     padding: 15px;
     background-color: #fff3cd; 
-    border-left: 5px solid #ffc107; /* Yellow accent line */
+    border-left: 5px solid #ffc107; 
     border-radius: 6px;
 }
 
@@ -223,22 +207,21 @@ body {
 .applicant-data-scrollable {
     overflow-y: auto;
     max-height: 500px; 
-    border-left: 4px solid #219ebc; /* Teal separator */
+    border-left: 4px solid #219ebc; 
     padding-left: 20px;
 }
 
 .data-label {
     font-weight: 600;
-    color: #5a7587; /* Softer blue-grey */
+    color: #5a7587; 
 }
 
-/* Fraud Insights Styling */
 .risk-gauge {
     font-size: 2em;
     font-weight: 700;
     margin-bottom: 20px;
     padding: 10px;
-    background-color: #fff3cd; /* Light yellow background */
+    background-color: #fff3cd; 
     border: 1px solid #ffeeba;
     border-radius: 6px;
 }
@@ -290,13 +273,13 @@ body {
 /* --- Responsive Adjustments --- */
 @media (max-width: 992px) {
     .kpi-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2x2 grid on tablets */
+        grid-template-columns: repeat(2, 1fr); 
     }
     .detail-grid {
-        grid-template-columns: 1fr; /* Stack detail cards on tablets */
+        grid-template-columns: 1fr; 
     }
     .applicant-data-scrollable {
-        max-height: none; /* Let data expand normally when stacked */
+        max-height: none; 
         border-left: none;
         border-top: 3px solid #0077b6;
         margin-top: 20px;
@@ -305,7 +288,7 @@ body {
 
 @media (max-width: 576px) {
     .kpi-grid {
-        grid-template-columns: 1fr; /* Stack KPIs on mobile */
+        grid-template-columns: 1fr;
     }
     .dashboard-header, .tab-navigation {
         padding-left: 15px;
@@ -324,7 +307,6 @@ body {
 .kpi-icon {
     font-size: 2.2em;
 }
-/* Match icon colors to the value colors for consistency */
 .kpi-card.high-risk .kpi-icon { color: #d62828; }
 .kpi-card.approved .kpi-icon { color: #2a9d8f; }
 .kpi-card.total .kpi-icon { color: #219ebc; }
@@ -332,7 +314,7 @@ body {
 .metrics-section {
     margin-top: 25px;
     padding-top: 15px;
-    border-top: 1px solid #dde6ed; /* Light separator line */
+    border-top: 1px solid #dde6ed; 
     font-size: 17px;
 }
 
@@ -360,15 +342,15 @@ body {
 /* --- NEW: Main Dashboard Layout --- */
 .main-layout {
     display: flex;
-    gap: 40px; /* Creates space between the two columns */
+    gap: 40px; 
 }
 
 .left-column {
-    flex: 0 0 350px; /* Gives the left column a fixed width */
+    flex: 0 0 350px; 
 }
 
 .right-column {
-    flex: 1; /* Allows the right column to fill the remaining space */
+    flex: 1;
     padding-top: 10px;
     display: flex !important;
     flex-direction: column !important;
@@ -391,8 +373,8 @@ body {
 /* --- NEW: Info Box Styling --- */
 .info-box {
     margin-top: 30px;
-    background-color: #eaf4fb; /* A very light, complementary blue */
-    border-left: 5px solid #219ebc; /* Teal accent matching your buttons */
+    background-color: #eaf4fb;
+    border-left: 5px solid #219ebc; 
     border-radius: 8px;
     padding: 25px;
 }
@@ -419,24 +401,25 @@ body {
 /* --- NEW: Styled container for data tables --- */
 .table-wrapper {
     background-color: rgb(228, 240, 243);
-    border: 1px solid #d0e6f6; /* A light, complementary border color */
-    border-radius: 12px;       /* Matches your kpi-card radius */
+    border: 1px solid #d0e6f6; 
+    border-radius: 12px;      
     padding: 20px;
-    box-shadow: 20px 20px 12px rgba(0, 0, 0, 0.08); /* Matches your kpi-card shadow */
-    overflow: hidden;          /* Ensures table corners don't stick out */
+    box-shadow: 20px 20px 12px rgba(0, 0, 0, 0.08); 
+    overflow: hidden;       
 }
 /* --- NEW: Risk score color classes --- */
 .low {
-    color: #28a745; /* Green */
+    color: #28a745; 
     font-weight: 700;
 }
 
 .medium {
-    color: #ffc107; /* Yellow */
+    color: #ffc107; 
     font-weight: 700;
 }
 
 .high {
-    color: #dc3545; /* Red */
+    color: #dc3545; 
     font-weight: 700;
 }
+
