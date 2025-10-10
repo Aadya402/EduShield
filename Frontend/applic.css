@@ -336,3 +336,33 @@
     display: none !important;
 }
 
+
+/* --- NEW: Styling for the "Back to Role Selection" button --- */
+.secondary-btn {
+    display: inline-block; /* Allows padding and other styles to apply */
+    padding: 10px 25px;
+    background-color: #f0f4f8; /* A light grey, neutral color */
+    color: #495057;           /* A darker grey text color */
+    border: 1px solid #dde6ed; /* A subtle border */
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;    /* Removes the default link underline */
+    font-size: 0.95em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.secondary-btn:hover {
+    background-color: #e2e6ea; /* Slightly darkens on hover */
+    border-color: #ced4da;
+}
+
+/* Optional: If your primary button needs centering and styling */
+.primary-btn {
+    /* You can add any specific styles for your green submit button here */
+    /* For example: */
+    padding: 12px 30px;
+    font-size: 1.1em;
+    width: 300px; /* Example fixed width */
+    max-width: 100%;
+}
