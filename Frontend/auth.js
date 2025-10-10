@@ -1,16 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
     // --- SUPABASE CLIENT SETUP ---
-    // The SUPABASE_URL and SUPABASE_ANON_KEY variables are loaded from env.js
     const { createClient } = supabase;
     const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    
-    // --- DOM ELEMENTS ---
+
     const signInForm = document.getElementById("sign-in-form");
     const signUpForm = document.getElementById("sign-up-form");
     const toggleLinks = document.querySelectorAll(".toggle-link");
-
-    // --- DETERMINE ROLE FROM URL ---
-    // This is how the script knows whether to use the 'applicants' or 'officers' table.
+    
     const isOfficerPage = window.location.pathname.includes("officer_auth.html");
     const role = isOfficerPage ? "officer" : "applicant";
     const tableName = isOfficerPage ? "officers" : "applicants";
@@ -32,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
         document.body.appendChild(modal);
     }
-    
     // --- FORM TOGGLING LOGIC ---
     toggleLinks.forEach(link => {
         link.addEventListener("click", (e) => {
@@ -41,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
             signUpForm.classList.toggle("active");
         });
     });
-
     // --- SIGN UP LOGIC ---
     signUpForm.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -49,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const email = document.getElementById("signup-email").value;
         const password = document.getElementById("signup-password").value;
 
-        // Step 1: Create the user in Supabase Auth
         const { data, error } = await supabaseClient.auth.signUp({
             email: email,
             password: password,
@@ -59,8 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
             showMessage("Sign Up Failed", error.message, true);
             return;
         }
-
-        // Step 2: If auth user is created, insert their profile into our public table
         if (data.user) {
             const { error: profileError } = await supabaseClient
                 .from(tableName)
@@ -71,11 +62,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 }]);
 
             if (profileError) {
-                // This is a rare case, but important to handle
                 showMessage("Sign Up Failed", `Could not create user profile: ${profileError.message}`, true);
                 return;
             }
-            
             showMessage("Success!", "Please check your email for a confirmation link to complete your registration.");
             signUpForm.reset();
             // Toggle back to the sign-in form
@@ -83,7 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
             signUpForm.classList.remove("active");
         }
     });
-
 // --- SIGN IN LOGIC ---
 signInForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -100,9 +88,7 @@ signInForm.addEventListener("submit", async (e) => {
         return;
     }
 
-    // If login is successful, execute the new logic
     if (data.user) {
-        // --- ADD THIS BLOCK TO CAPTURE AND UPDATE GEOLOCATION ---
         try {
             // 1. Fetch the geolocation data from the API
             const response = await fetch('http://ip-api.com/json');
@@ -110,28 +96,22 @@ signInForm.addEventListener("submit", async (e) => {
                 throw new Error('Could not fetch geolocation');
             }
             const ipData = await response.json();
-
             // 2. Call the RPC function to save the data in your 'applicants' or 'officers' table
-            // The 'tableName' variable correctly identifies whether the user is an applicant or officer
             const { error: rpcError } = await supabaseClient.rpc('update_last_login_info', {
                 geolocation_data: ipData,
                 target_table: tableName // Pass the table name to the function
             });
-
             if (rpcError) {
-                // Log the error but don't block the user from signing in
                 console.error('Could not update last login info:', rpcError);
             } else {
                 console.log('Successfully updated last login info.');
             }
-
         } catch (fetchError) {
             console.error('Geolocation fetch error:', fetchError);
         }
-
-        // 3. Redirect the user to the correct page (this line already exists)
         window.location.href = redirectUrl;
     }
 });
 });
+
 
