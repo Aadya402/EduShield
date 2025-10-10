@@ -336,6 +336,16 @@
     display: none !important;
 }
 
+/* --- NEW: Form Action Buttons Container --- */
+.form-actions {
+    text-align: center; /* Centers all content inside the div */
+    margin-top: 30px;   /* Adds some space above the buttons */
+    display: flex;
+    flex-direction: column; /* Stacks the buttons vertically */
+    align-items: center;    /* Horizontally centers the stacked items */
+    gap: 15px;          /* Adds space between the two buttons */
+}
+
 
 /* --- NEW: Styling for the "Back to Role Selection" button --- */
 .secondary-btn {
