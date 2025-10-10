@@ -3,12 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // initialize the client
     const { createClient } = supabase;
     const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    // -----------------------------
-
+    
     const applyBtn = document.getElementById("apply-btn");
     const officerLoginBtn = document.getElementById("officer-login-btn");
 
-    // Helper to show a custom message box 
     function showMessage(title, message) {
         const modal = document.createElement('div');
         modal.className = 'custom-modal';
@@ -20,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
         document.body.appendChild(modal);
-        // Basic styling for the custom modal)
         const modalStyle = document.createElement('style');
         modalStyle.innerHTML = `
             .custom-modal {
@@ -39,33 +36,24 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
         document.head.appendChild(modalStyle);
     }
-
-        // --- A. Logic for index.html (Role Selection) ---
-
+        // --- Role Selection ---
     if (applyBtn) {
         applyBtn.addEventListener("click", () => {
-            // UPDATED: Points to the applicant authentication page
             window.location.href = "applicant_auth.html";
         });
     }
-
     if (officerLoginBtn) {
         officerLoginBtn.addEventListener("click", () => {
-            // UPDATED: Points to the officer authentication page
             window.location.href = "officer_auth.html";
         });
     }
-
-        // --- C. Logic for officer.html (Dashboard View Switching) ---
+        // --- Dashboard View Switching ---
     const dashboardContainer = document.querySelector('.dashboard-container');
-    
     if (dashboardContainer) {
-        
-        // --- ADD THIS ENTIRE FUNCTION ---
         function populateDetailView(app) {
             if (!app) return;
 
-            // --- 1. Populate the right-side KYC & Financial Data ---
+            // --- 1. Financial Data ---
             document.getElementById('detail-full-name').textContent = app.full_name || '--';
             document.getElementById('detail-email').textContent = app.email || '--';
             document.getElementById('detail-phone').textContent = app.phone_number || '--';
@@ -77,13 +65,11 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('detail-loan-term').textContent = `${app.loan_term_months} months` || '--';
             document.getElementById('detail-credit-score').textContent = app.credit_score || '--';
 
-            // --- 2. Populate the left-side AI Fraud Insights ---
+            // --- 2. AI Fraud Insights ---
             const riskGauge = document.getElementById('detail-risk-gauge');
             const riskScore = app.risk_score || 0;
             riskGauge.innerHTML = `Risk Score: <span class="score-value">${riskScore}/100</span>`;
             riskGauge.querySelector('.score-value').className = riskScore > 75 ? 'score-value high' : 'score-value low';
-
-            // --- ADD THIS ENTIRE NEW BLOCK TO SHOW ALL 6 METRICS ---
             const metricsContainer = document.getElementById('detail-metrics-container');
             let metricsHTML = '<h4>AI & Behavioral Metrics</h4>';
 
@@ -94,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="data-label">Typing Speed (WPM):</span>
                     <span class="data-value ${wpm > 90 ? 'red-flag' : ''}">${wpm}</span>
                 </div>`;
-
             // 2. Error/Correction Rate
             const errorRate = ((app.behavioral_error_rate ?? 0) * 100).toFixed(1);
             metricsHTML += `
@@ -102,7 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="data-label">Correction Rate:</span>
                     <span class="data-value ${errorRate > 2.5 ? 'red-flag' : ''}">${errorRate}%</span>
                 </div>`;
-
             // 3. Hesitation Time
             const hesitation = Math.round(app.behavioral_hesitation_ms ?? 0);
             metricsHTML += `
@@ -110,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="data-label">Avg. Hesitation (ms):</span>
                     <span class="data-value ${hesitation > 2000 ? 'yellow-flag' : ''}">${hesitation}</span>
                 </div>`;
-
             // 4. Multiple Applications from Same Device
             const appCount = app.multiple_applications ?? 0;
             metricsHTML += `
@@ -118,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="data-label">Previous Applications (Device):</span>
                     <span class="data-value ${appCount > 1 ? 'yellow-flag' : ''}">${appCount}</span>
                 </div>`;
-
             // 5. Device Mismatch
             const deviceMismatch = app.device_mismatch === 1;
             metricsHTML += `
@@ -126,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="data-label">Device Type Mismatch:</span>
                     <span class="data-value ${deviceMismatch ? 'red-flag' : ''}">${deviceMismatch ? 'Yes' : 'No'}</span>
                 </div>`;
-
             // 6. IP Mismatch
             const ipMismatch = app.ip_mismatch === 1;
             metricsHTML += `
@@ -134,14 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="data-label">IP-Geography Mismatch:</span>
                     <span class="data-value ${ipMismatch ? 'red-flag' : ''}">${ipMismatch ? 'Yes' : 'No'}</span>
                 </div>`;
-
             metricsContainer.innerHTML = metricsHTML;
-            // --- END OF NEW BLOCK ---
-
         }
-        // --- END OF FUNCTION ---
-
-        // --- ADD THIS ENTIRE FUNCTION ---
         async function updateDashboardKPIs() {
             // 1. Get Date Ranges for "Today" and "This Week"
             const now = new Date();
@@ -427,6 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }     
 
 }); 
+
 
 
 
